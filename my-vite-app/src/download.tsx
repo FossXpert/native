@@ -1,7 +1,6 @@
 import RNFetchBlob from "react-native-blob-util";
 import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { Platform, PermissionsAndroid } from "react-native";
-import React from "react";
 const relatedDocumentData = "hello w0rlds";
 
 
