@@ -49,18 +49,24 @@ export const fileDownload = async () => {
 
   try {
     const blob = await pdf(<MyDocument data={relatedDocumentData} />).toBlob();
-    
-    // Convert Blob to an Object URL
-    const fileURL = URL.createObjectURL(blob);
-    
-    // Open in new tab (iOS will show Download option)
-    window.open(fileURL, "_blank");
-    
-    // Cleanup
-    setTimeout(() => URL.revokeObjectURL(fileURL), 1000);
+
+    // Convert Blob to a Base64 Data URL
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const a = document.createElement("a");
+      a.href = reader.result as string; // Base64 Data URL
+      a.download = "RelatedDoc.pdf";
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+
+    reader.readAsDataURL(blob); // Convert to Base64
   } catch (error) {
     console.error("Download Error:", error);
   }
+
 }
 const blobToDataURL = (blob: Blob) => {
   return new Promise<string>((resolve, reject) => {
