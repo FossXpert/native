@@ -49,17 +49,25 @@ export const fileDownload = async () => {
 
   try {
     const blob = await pdf(<MyDocument data={relatedDocumentData} />).toBlob();
-
-    // Convert Blob to a Base64 Data URL
+    
+    // Convert Blob to Base64
     const reader = new FileReader();
     reader.onloadend = () => {
+      const base64Data = reader.result as string; // Full Base64 data URL
+      const pdfBlob = base64ToBlob(base64Data);
+
+      // Create Object URL for Download
+      const blobUrl = URL.createObjectURL(pdfBlob);
       const a = document.createElement("a");
-      a.href = reader.result as string; // Base64 Data URL
+      a.href = blobUrl;
       a.download = "RelatedDoc.pdf";
 
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+
+      // Clean up URL to prevent memory leaks
+      URL.revokeObjectURL(blobUrl);
     };
 
     reader.readAsDataURL(blob); // Convert to Base64
@@ -68,13 +76,22 @@ export const fileDownload = async () => {
   }
 
 }
-const blobToDataURL = (blob: Blob) => {
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
+const base64ToBlob = (base64: string, contentType = "application/pdf") => {
+  const byteCharacters = atob(base64.split(",")[1]); // Remove `data:application/pdf;base64,`
+  const byteArrays = [];
+
+  for (let i = 0; i < byteCharacters.length; i += 512) {
+    const slice = byteCharacters.slice(i, i + 512);
+    const byteNumbers = new Array(slice.length);
+
+    for (let j = 0; j < slice.length; j++) {
+      byteNumbers[j] = slice.charCodeAt(j);
+    }
+
+    byteArrays.push(new Uint8Array(byteNumbers));
+  }
+
+  return new Blob(byteArrays, { type: contentType });
 };
 
 
