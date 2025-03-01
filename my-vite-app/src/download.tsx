@@ -47,13 +47,18 @@ export const fileDownload = async() => {
   )
 
 
-  const blob = await pdf(<MyDocument data={relatedDocumentData}/>).toBlob();
+  try {
+    const blob = await pdf(<MyDocument data={relatedDocumentData}/>).toBlob();
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = "RelatedDoc.pdf";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  } catch (error) {
+    console.log("error",error)
+  }
+  
 }
 
 
