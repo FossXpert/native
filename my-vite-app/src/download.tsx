@@ -1,5 +1,5 @@
 import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
-const relatedDocumentData = "hello w0rlds";
+const relatedDocumentData = "helljnbhbhbhhs";
 
 interface MyDocumentProps {
   data: string;
@@ -48,18 +48,27 @@ export const fileDownload = async() => {
 
 
   try {
-    const blob = await pdf(<MyDocument data={relatedDocumentData}/>).toBlob();
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "RelatedDoc.pdf";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+    const blob = await pdf(<MyDocument data={relatedDocumentData} />).toBlob();
+    const dataURL = await blobToDataURL(blob);
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "RelatedDoc.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   } catch (error) {
-    console.log("error",error)
+    console.log("error", error);
   }
   
 }
+const blobToDataURL = (blob: Blob) => {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+};
 
 
 // Helper function to save Blob as file (Without Opening)
