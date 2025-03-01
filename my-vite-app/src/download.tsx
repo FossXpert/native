@@ -6,8 +6,8 @@ interface MyDocumentProps {
 }
 
 
-export const fileDownload = async() => {
-  if(!relatedDocumentData) return;
+export const fileDownload = async () => {
+  if (!relatedDocumentData) return;
 
 
   // Font.register({
@@ -15,23 +15,23 @@ export const fileDownload = async() => {
   //   src: '../../../assets/fonts/Verizon_NHG/VerizonNHGTX-Regular.ttf'
   // })
   const styles = StyleSheet.create({
-    page: { flexDirection: "column",padding:25},
-    section: { margin:0},
-    text: { 
-        fontSize: 10 ,
-        fontFamily:'Courier',
-        wordBreak: "break-word",
-        whiteSpace: "pre-wrap",
-      },
-    text1:{
-      fontSize: 12 ,
-      fontFamily:'Courier-Bold',
-      }
-    })
+    page: { flexDirection: "column", padding: 25 },
+    section: { margin: 0 },
+    text: {
+      fontSize: 10,
+      fontFamily: 'Courier',
+      wordBreak: "break-word",
+      whiteSpace: "pre-wrap",
+    },
+    text1: {
+      fontSize: 12,
+      fontFamily: 'Courier-Bold',
+    }
+  })
 
 
-  const workId =  "1234";          
-  const MyDocument:React.FC<MyDocumentProps> = ({data}) => (
+  const workId = "1234";
+  const MyDocument: React.FC<MyDocumentProps> = ({ data }) => (
     <Document>
       <Page size="LETTER" style={styles.page}>
         <View style={styles.section}>
@@ -49,7 +49,10 @@ export const fileDownload = async() => {
 
   try {
     const blob = await pdf(<MyDocument data={relatedDocumentData} />).toBlob();
+
+    // For iOS: Convert Blob to Data URL and trigger download
     const dataURL = await blobToDataURL(blob);
+
     const link = document.createElement("a");
     link.href = dataURL;
     link.download = "RelatedDoc.pdf";
@@ -59,7 +62,7 @@ export const fileDownload = async() => {
   } catch (error) {
     console.log("error", error);
   }
-  
+
 }
 const blobToDataURL = (blob: Blob) => {
   return new Promise<string>((resolve, reject) => {
