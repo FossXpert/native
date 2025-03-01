@@ -1,5 +1,5 @@
 import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
-const relatedDocumentData = "helljnbhbhbhhs";
+const relatedDocumentData = "hello";
 
 interface MyDocumentProps {
   data: string;
@@ -49,20 +49,18 @@ export const fileDownload = async () => {
 
   try {
     const blob = await pdf(<MyDocument data={relatedDocumentData} />).toBlob();
-
-    // For iOS: Convert Blob to Data URL and trigger download
-    const dataURL = await blobToDataURL(blob);
-
-    const link = document.createElement("a");
-    link.href = dataURL;
-    link.download = "RelatedDoc.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    
+    // Convert Blob to an Object URL
+    const fileURL = URL.createObjectURL(blob);
+    
+    // Open in new tab (iOS will show Download option)
+    window.open(fileURL, "_blank");
+    
+    // Cleanup
+    setTimeout(() => URL.revokeObjectURL(fileURL), 1000);
   } catch (error) {
-    console.log("error", error);
+    console.error("Download Error:", error);
   }
-
 }
 const blobToDataURL = (blob: Blob) => {
   return new Promise<string>((resolve, reject) => {
