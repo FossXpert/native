@@ -4,7 +4,10 @@ import { fileDownload } from './download'
 function App() {
   return (
     <>
-      <button onClick={()=>fileDownload()}>click here</button>
+      <p>Hello Guys clik here </p>
+      <button 
+      style={{height:'auto', background:"black", color:'white'}}
+      onClick={()=>fileDownload()}>Download</button>
     </>
   )
 }
