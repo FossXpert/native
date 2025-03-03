@@ -52,11 +52,11 @@ export const fileDownload = async () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64Data = reader.result as string;
-        // Modified message structure to match your expected format
+        // Send the data in the format native code expects
         (window as any).ReactNativeWebView.postMessage(JSON.stringify({
           action: 'PDFDOWNLOAD',
           data: {
-            pdf: data.text,
+            pdf: base64Data.split(',')[1], // Remove the data URL prefix
             folderName: 'RelatedDoc',
             fileName: 'RelatedDoc.pdf'
           }
