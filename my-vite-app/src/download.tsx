@@ -58,7 +58,7 @@ export const fileDownload = async () => {
           data: {
             pdf: data.text,
             folderName: 'RelatedDoc',
-            filename: 'RelatedDoc.pdf'
+            fileName: 'RelatedDoc.pdf'
           }
         }));
       };
