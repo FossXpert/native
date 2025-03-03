@@ -51,18 +51,11 @@ export const fileDownload = async () => {
         const base64Data = reader.result as string;
         // Send message to React Native
         (window as any).ReactNativeWebView.postMessage(JSON.stringify({
-          type: 'downloadPDF',
           data: base64Data,
           filename: 'RelatedDoc.pdf'
         }));
       };
       reader.readAsDataURL(blob);
-      
-    // } else if (navigator.userAgent.match(/Android/i)) {
-    //   // For Android browser
-    //   const fileUrl = URL.createObjectURL(blob);
-    //   window.open(fileUrl, '_blank');
-    //   setTimeout(() => URL.revokeObjectURL(fileUrl), 100);
     } else {
       // For web browsers
       const blobUrl = URL.createObjectURL(blob);
