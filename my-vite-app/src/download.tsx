@@ -1,7 +1,7 @@
 import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
 import data from "./assets/data.json";
 
-const relatedDocumentData = data.text+data.text+data.text+data.text+data.text+data.text+data.text+data.text+ data.text+data.text+data.text+data.text+data.text+data.text+data.text+data.text;
+const relatedDocumentData = data.text 
 
 console.log(relatedDocumentData);
 interface MyDocumentProps {
@@ -46,7 +46,7 @@ export const fileDownload = async () => {
 
   try {
     const blob = await pdf(<MyDocument data={relatedDocumentData} />).toBlob();
-    
+
     if ((window as any).ReactNativeWebView) {
       // For React Native WebView
       const reader = new FileReader();
@@ -54,8 +54,10 @@ export const fileDownload = async () => {
         const base64Data = reader.result as string;
         // Send message to React Native
         (window as any).ReactNativeWebView.postMessage(JSON.stringify({
-          data: base64Data,
-          filename: 'RelatedDoc.pdf'
+          data: {
+            data: base64Data,
+            filename: 'RelatedDoc.pdf'
+          }
         }));
       };
       reader.readAsDataURL(blob);
