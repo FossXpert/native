@@ -2,6 +2,8 @@ import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer
 import data from "./assets/data.json";
 
 const relatedDocumentData = data.text;
+
+console.log(relatedDocumentData);
 interface MyDocumentProps {
   data: string;
 }
@@ -66,10 +68,7 @@ export const fileDownload = async () => {
       a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(blobUrl);
-      }, 100);
+      document.body.removeChild(a);
     }
   } catch (error) {
     console.error("Download Error:", error);
