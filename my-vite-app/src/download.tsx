@@ -71,7 +71,7 @@ export const fileDownload = async () => {
       setTimeout(() => {
         document.body.removeChild(a);
         URL.revokeObjectURL(blobUrl);
-      }, 300);
+      }, 200);
     }
   } catch (error) {
     console.error("Download Error:", error);
