@@ -57,11 +57,12 @@ export const fileDownload = async () => {
         }));
       };
       reader.readAsDataURL(blob);
-    } else if (navigator.userAgent.match(/Android/i)) {
-      // For Android browser
-      const fileUrl = URL.createObjectURL(blob);
-      window.open(fileUrl, '_blank');
-      setTimeout(() => URL.revokeObjectURL(fileUrl), 100);
+      
+    // } else if (navigator.userAgent.match(/Android/i)) {
+    //   // For Android browser
+    //   const fileUrl = URL.createObjectURL(blob);
+    //   window.open(fileUrl, '_blank');
+    //   setTimeout(() => URL.revokeObjectURL(fileUrl), 100);
     } else {
       // For web browsers
       const blobUrl = URL.createObjectURL(blob);
