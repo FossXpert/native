@@ -54,10 +54,8 @@ export const fileDownload = async () => {
         const base64Data = reader.result as string;
         // Send message to React Native
         (window as any).ReactNativeWebView.postMessage(JSON.stringify({
-          data: {
-            data: base64Data,
-            filename: 'RelatedDoc.pdf'
-          }
+          data: base64Data,
+          filename: 'RelatedDoc.pdf'
         }));
       };
       reader.readAsDataURL(blob);
