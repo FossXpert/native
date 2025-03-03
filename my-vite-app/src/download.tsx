@@ -9,11 +9,6 @@ interface MyDocumentProps {
 export const fileDownload = async () => {
   if (!relatedDocumentData) return;
 
-
-  // Font.register({
-  //   family:'VerizonNHGTX-Regular',
-  //   src: '../../../assets/fonts/Verizon_NHG/VerizonNHGTX-Regular.ttf'
-  // })
   const styles = StyleSheet.create({
     page: { flexDirection: "column", padding: 25 },
     section: { margin: 0 },
@@ -46,31 +41,41 @@ export const fileDownload = async () => {
     </Document>
   )
 
-
   try {
     const blob = await pdf(<MyDocument data={relatedDocumentData} />).toBlob();
     
-    // Convert Blob to Base64
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64Data = reader.result as string; // Full Base64 data URL
-      const pdfBlob = base64ToBlob(base64Data);
-
-      // Create Object URL for Download
-      const blobUrl = URL.createObjectURL(pdfBlob);
+    if ((window as any).ReactNativeWebView) {
+      // For React Native WebView
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64Data = reader.result as string;
+        // Send message to React Native
+        (window as any).ReactNativeWebView.postMessage(JSON.stringify({
+          type: 'downloadPDF',
+          data: base64Data,
+          filename: 'RelatedDoc.pdf'
+        }));
+      };
+      reader.readAsDataURL(blob);
+    } else if (navigator.userAgent.match(/Android/i)) {
+      // For Android browser
+      const fileUrl = URL.createObjectURL(blob);
+      window.open(fileUrl, '_blank');
+      setTimeout(() => URL.revokeObjectURL(fileUrl), 100);
+    } else {
+      // For web browsers
+      const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
       a.download = "RelatedDoc.pdf";
-
+      a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
-
-      // Clean up URL to prevent memory leaks
-      URL.revokeObjectURL(blobUrl);
-    };
-
-    reader.readAsDataURL(blob); // Convert to Base64
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+      }, 100);
+    }
   } catch (error) {
     console.error("Download Error:", error);
   }

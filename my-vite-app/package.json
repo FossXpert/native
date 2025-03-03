@@ -14,7 +14,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-native": "^0.78.0",
-    "react-native-blob-util": "^0.21.2"
+    "react-native-blob-util": "^0.21.2",
+    "react-native-fs": "^2.20.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
