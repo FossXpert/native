@@ -1,7 +1,7 @@
 import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
 import data from "./assets/data.json";
 
-const relatedDocumentData = data.text 
+const relatedDocumentData = data.text + data.text +data.text +data.text +data.text +data.text +data.text + data.text + data.text +data.text +data.text +data.text +data.text +data.text;
 
 console.log(relatedDocumentData);
 interface MyDocumentProps {
@@ -54,7 +54,7 @@ export const fileDownload = async () => {
         const base64Data = reader.result as string;
         // Send the data in the format native code expects
         (window as any).ReactNativeWebView.postMessage(JSON.stringify({
-          action: 'PDFDOWNLOAD',
+          action: 'CXMPDFDOWNLOAD',
           data: {
             pdf: base64Data.split(',')[1], // Remove the data URL prefix
             folderName: 'RelatedDoc',
