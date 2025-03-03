@@ -1,6 +1,7 @@
 import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
-const relatedDocumentData = "hello";
+import data from "./assets/data.json";
 
+const relatedDocumentData = data.text;
 interface MyDocumentProps {
   data: string;
 }
