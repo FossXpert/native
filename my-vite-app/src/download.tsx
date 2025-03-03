@@ -68,7 +68,10 @@ export const fileDownload = async () => {
       a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+      }, 300);
     }
   } catch (error) {
     console.error("Download Error:", error);
