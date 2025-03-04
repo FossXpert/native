@@ -57,7 +57,7 @@ export const fileDownload = async () => {
           action: 'PDFDOWNLOAD',
           data: {
             pdf: base64Data.split(',')[1], // Remove the data URL prefix
-            folderName: '',
+            folderName: 'hello',
             fileName: 'RelatedDoc.pdf'
           }
         }));
