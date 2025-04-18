@@ -1,6 +1,4 @@
 import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
-import data from "./assets/data.json";
-import { useState } from "react";
 
 const relatedDocumentData = {
   content: "Hello",
@@ -14,7 +12,7 @@ interface MyDocumentProps {
   data:string;
 }
 
-export const FileDownload = async () => {
+export const fileDownload = async () => {
   if (!relatedDocumentData.content) return;
 
   const styles = StyleSheet.create({
