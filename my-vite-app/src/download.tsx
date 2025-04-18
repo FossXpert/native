@@ -1,16 +1,21 @@
 import { Document, Page, pdf, StyleSheet, Text, View } from "@react-pdf/renderer";
 import data from "./assets/data.json";
+import { useState } from "react";
 
-const relatedDocumentData = data.text;
-
-console.log(relatedDocumentData);
-interface MyDocumentProps {
-  data: string;
+const relatedDocumentData = {
+  content: "Hello",
+  itemToPrint: "Related Document"
 }
 
 
-export const fileDownload = async () => {
-  if (!relatedDocumentData) return;
+
+console.log(relatedDocumentData);
+interface MyDocumentProps {
+  data:string;
+}
+
+export const FileDownload = async () => {
+  if (!relatedDocumentData.content) return;
 
   const styles = StyleSheet.create({
     page: { flexDirection: "column", padding: 25 },
@@ -29,7 +34,7 @@ export const fileDownload = async () => {
 
 
   const workId = "1234";
-  const MyDocument: React.FC<MyDocumentProps> = ({ data }) => (
+  const MyDocument: React.FC<MyDocumentProps> = ({data }) => (
     <Document>
       <Page size="LETTER" style={styles.page}>
         <View style={styles.section}>
@@ -45,7 +50,7 @@ export const fileDownload = async () => {
   )
 
   try {
-    const blob = await pdf(<MyDocument data={relatedDocumentData} />).toBlob();
+    const blob = await pdf(<MyDocument data={relatedDocumentData.content} />).toBlob();
 
     if ((window as any).ReactNativeWebView) {
       // For React Native WebView
